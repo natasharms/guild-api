@@ -1,7 +1,14 @@
 package com.api.guildapplication.dtos;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.validation.constraints.*;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class GuildMemberDTO {
 
     @NotBlank
@@ -23,43 +30,4 @@ public class GuildMemberDTO {
     @Min(1000)
     private Integer gearScore;
 
-    public String getCharName() {
-        return charName;
-    }
-
-    public void setCharName(String charName) {
-        this.charName = charName;
-    }
-
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
-
-    public String getRace() {
-        return race;
-    }
-
-    public void setRace(String race) {
-        this.race = race;
-    }
-
-    public String getClasse() {
-        return classe;
-    }
-
-    public void setClasse(String classe) {
-        this.classe = classe;
-    }
-
-    public Integer getGearScore() {
-        return gearScore;
-    }
-
-    public void setGearScore(Integer gearScore) {
-        this.gearScore = gearScore;
-    }
 }

@@ -1,5 +1,9 @@
 package com.api.guildapplication.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -7,6 +11,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "TB_GUILD_MEMBER")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class GuildMemberModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -31,55 +38,6 @@ public class GuildMemberModel implements Serializable {
 
     @Column(nullable = false)
     private LocalDateTime registrationDate;
-
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getCharName() {
-        return charName;
-    }
-
-    public void setCharName(String charName) {
-        this.charName = charName;
-    }
-
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
-
-    public String getRace() {
-        return race;
-    }
-
-    public void setRace(String race) {
-        this.race = race;
-    }
-
-    public String getClasse() {
-        return classe;
-    }
-
-    public void setClasse(String classe) {
-        this.classe = classe;
-    }
-
-    public Integer getGearScore() {
-        return gearScore;
-    }
-
-    public void setGearScore(Integer gearScore) {
-        this.gearScore = gearScore;
-    }
 
     public LocalDateTime getRegistrationDate() {
         return registrationDate;

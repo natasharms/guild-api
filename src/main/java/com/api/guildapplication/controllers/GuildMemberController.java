@@ -66,9 +66,9 @@ public class GuildMemberController {
 
 
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteGuildMember(@PathVariable(value = "id") UUID id){
-        Optional<GuildMemberModel> guildMemberModelOptional = guildMemberService.findById(id);
+    @DeleteMapping("/{char_name}")
+    public ResponseEntity<Object> deleteGuildMember(@PathVariable(value = "char_name") String charName){
+        Optional<GuildMemberModel> guildMemberModelOptional = guildMemberService.findByCharName(charName);
         if (!guildMemberModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Member not found.");
         }
@@ -76,10 +76,10 @@ public class GuildMemberController {
         return ResponseEntity.status(HttpStatus.OK).body("Member deleted successfully.");
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> updateGuildMember(@PathVariable(value = "id") UUID id,
+    @PutMapping("/{char_name}")
+    public ResponseEntity<Object> updateGuildMember(@PathVariable(value = "char_name") String charName,
                                                     @RequestBody @Valid GuildMemberDTO guildMemberDTO){
-        Optional<GuildMemberModel> guildMemberModelOptional = guildMemberService.findById(id);
+        Optional<GuildMemberModel> guildMemberModelOptional = guildMemberService.findByCharName(charName);
         if (!guildMemberModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Guild member not found.");
         }
