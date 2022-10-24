@@ -46,14 +46,25 @@ public class GuildMemberController {
         return ResponseEntity.status(HttpStatus.OK).body(guildMemberService.findAll(pageable));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> getOneGuildMember(@PathVariable(value = "id") UUID id){
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Object> getOneGuildMember(@PathVariable UUID id){
         Optional<GuildMemberModel> guildMemberModelOptional = guildMemberService.findById(id);
         if (!guildMemberModelOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Member not found.");
         }
         return ResponseEntity.status(HttpStatus.OK).body(guildMemberModelOptional.get());
     }
+
+    @GetMapping("/name/{char_name}")
+    public ResponseEntity<Object> getGuildMember(@PathVariable(value = "char_name") String charName){
+        Optional<GuildMemberModel> guildMemberModelOptional = guildMemberService.findByCharName(charName);
+        if (!guildMemberModelOptional.isPresent()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Member not found.");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(guildMemberModelOptional.get());
+    }
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteGuildMember(@PathVariable(value = "id") UUID id){

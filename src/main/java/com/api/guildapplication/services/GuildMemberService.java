@@ -39,4 +39,8 @@ public class GuildMemberService {
     public void delete(GuildMemberModel guildMemberModel) {
         guildMemberRepository.delete(guildMemberModel);
     }
+
+    public Optional<GuildMemberModel> findByCharName(String charName) {
+        return guildMemberRepository.findByCharName(charName);
+    }
 }
