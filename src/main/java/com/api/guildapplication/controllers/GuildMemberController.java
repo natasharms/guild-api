@@ -29,16 +29,10 @@ public class GuildMemberController {
 
     @PostMapping
     public ResponseEntity<Object> saveGuildMember(@RequestBody @Valid GuildMemberDTO guildMemberDTO){
-
-        /*if(guildMemberService.existsByCharName(guildMemberDTO.getCharName())){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Character name already in use.");
-        }*/
-
         var guildMemberModel = new GuildMemberModel();
         BeanUtils.copyProperties(guildMemberDTO, guildMemberModel);
         guildMemberModel.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
         return ResponseEntity.status(HttpStatus.CREATED).body(guildMemberService.save(guildMemberModel));
-
     }
 
     @GetMapping
@@ -49,21 +43,18 @@ public class GuildMemberController {
     @GetMapping("/id/{id}")
     public ResponseEntity<Object> getOneGuildMember(@PathVariable UUID id){
         Optional<GuildMemberModel> guildMemberModelOptional = guildMemberService.findById(id);
-
         return ResponseEntity.status(HttpStatus.OK).body(guildMemberModelOptional.get());
     }
 
     @GetMapping("/name/{char_name}")
     public ResponseEntity<Object> getGuildMember(@PathVariable(value = "char_name") String charName){
         Optional<GuildMemberModel> guildMemberModelOptional = guildMemberService.findByCharName(charName);
-
         return ResponseEntity.status(HttpStatus.OK).body(guildMemberModelOptional.get());
     }
 
     @DeleteMapping("/{char_name}")
     public ResponseEntity<Object> deleteGuildMember(@PathVariable(value = "char_name") String charName){
         Optional<GuildMemberModel> guildMemberModelOptional = guildMemberService.findByCharName(charName);
-
         guildMemberService.delete(guildMemberModelOptional.get());
         return ResponseEntity.status(HttpStatus.OK).body("Member deleted successfully.");
     }
@@ -72,7 +63,6 @@ public class GuildMemberController {
     public ResponseEntity<Object> updateGuildMember(@PathVariable(value = "char_name") String charName,
                                                     @RequestBody @Valid GuildMemberDTO guildMemberDTO){
         Optional<GuildMemberModel> guildMemberModelOptional = guildMemberService.findByCharName(charName);
-
         var guildMemberModel = new GuildMemberModel();
         BeanUtils.copyProperties(guildMemberDTO, guildMemberModel);
         guildMemberModel.setId(guildMemberModelOptional.get().getId());
