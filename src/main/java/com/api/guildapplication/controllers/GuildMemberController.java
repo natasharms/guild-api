@@ -30,9 +30,9 @@ public class GuildMemberController {
     @PostMapping
     public ResponseEntity<Object> saveGuildMember(@RequestBody @Valid GuildMemberDTO guildMemberDTO){
 
-        if(guildMemberService.existsByCharName(guildMemberDTO.getCharName())){
+        /*if(guildMemberService.existsByCharName(guildMemberDTO.getCharName())){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Character name already in use.");
-        }
+        }*/
 
         var guildMemberModel = new GuildMemberModel();
         BeanUtils.copyProperties(guildMemberDTO, guildMemberModel);
@@ -50,10 +50,6 @@ public class GuildMemberController {
     public ResponseEntity<Object> getOneGuildMember(@PathVariable UUID id){
         Optional<GuildMemberModel> guildMemberModelOptional = guildMemberService.findById(id);
 
-        if (!guildMemberModelOptional.isPresent()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Member not found.");
-        }
-
         return ResponseEntity.status(HttpStatus.OK).body(guildMemberModelOptional.get());
     }
 
@@ -61,20 +57,12 @@ public class GuildMemberController {
     public ResponseEntity<Object> getGuildMember(@PathVariable(value = "char_name") String charName){
         Optional<GuildMemberModel> guildMemberModelOptional = guildMemberService.findByCharName(charName);
 
-        if (!guildMemberModelOptional.isPresent()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Member not found.");
-        }
-
         return ResponseEntity.status(HttpStatus.OK).body(guildMemberModelOptional.get());
     }
 
     @DeleteMapping("/{char_name}")
     public ResponseEntity<Object> deleteGuildMember(@PathVariable(value = "char_name") String charName){
         Optional<GuildMemberModel> guildMemberModelOptional = guildMemberService.findByCharName(charName);
-
-        if (!guildMemberModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Member not found.");
-        }
 
         guildMemberService.delete(guildMemberModelOptional.get());
         return ResponseEntity.status(HttpStatus.OK).body("Member deleted successfully.");
@@ -84,10 +72,6 @@ public class GuildMemberController {
     public ResponseEntity<Object> updateGuildMember(@PathVariable(value = "char_name") String charName,
                                                     @RequestBody @Valid GuildMemberDTO guildMemberDTO){
         Optional<GuildMemberModel> guildMemberModelOptional = guildMemberService.findByCharName(charName);
-
-        if (!guildMemberModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Guild member not found.");
-        }
 
         var guildMemberModel = new GuildMemberModel();
         BeanUtils.copyProperties(guildMemberDTO, guildMemberModel);
