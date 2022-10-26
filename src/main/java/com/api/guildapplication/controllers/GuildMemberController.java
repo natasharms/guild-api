@@ -3,8 +3,10 @@ package com.api.guildapplication.controllers;
 import com.api.guildapplication.dtos.GuildMemberDTO;
 import com.api.guildapplication.models.GuildMemberModel;
 import com.api.guildapplication.services.GuildMemberService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -27,6 +29,7 @@ public class GuildMemberController {
     @Autowired
     GuildMemberService guildMemberService;
 
+    @Operation(summary = "Save new member")
     @PostMapping
     public ResponseEntity<Object> saveGuildMember(@RequestBody @Valid GuildMemberDTO guildMemberDTO){
         var guildMemberModel = new GuildMemberModel();
@@ -35,17 +38,20 @@ public class GuildMemberController {
         return ResponseEntity.status(HttpStatus.CREATED).body(guildMemberService.save(guildMemberModel));
     }
 
+    @Operation(summary = "Get all members")
     @GetMapping
     public ResponseEntity<Page<GuildMemberModel>> getAllGuildMembers(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(guildMemberService.findAll(pageable));
     }
 
+    @Operation(summary = "Get member by ID")
     @GetMapping("/id/{id}")
     public ResponseEntity<Object> getOneGuildMember(@PathVariable UUID id){
         Optional<GuildMemberModel> guildMemberModelOptional = guildMemberService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(guildMemberModelOptional.get());
     }
 
+    @Operation(summary = "Get member by name")
     @GetMapping("/name/{char_name}")
     public ResponseEntity<Object> getGuildMember(@PathVariable(value = "char_name") String charName){
         Optional<GuildMemberModel> guildMemberModelOptional = guildMemberService.findByCharName(charName);
@@ -59,6 +65,7 @@ public class GuildMemberController {
         return ResponseEntity.status(HttpStatus.OK).body("Member deleted successfully.");
     }
 
+    @Operation(summary = "Update member info")
     @PutMapping("/{char_name}")
     public ResponseEntity<Object> updateGuildMember(@PathVariable(value = "char_name") String charName,
                                                     @RequestBody @Valid GuildMemberDTO guildMemberDTO){
